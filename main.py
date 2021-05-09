@@ -28,7 +28,6 @@ chrome_options.add_argument("--headless")
 # chrome_options.add_argument("--profile-directory=.\data\Default")
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
-driver = webdriver.Chrome(options= chrome_options)
 
 def get_link(string:str):
     begin = string.find("https://")
@@ -112,6 +111,8 @@ async def unregister(ctx):
 
 @client.command()
 async def schedule(ctx):    
+    driver = webdriver.Chrome(options= chrome_options)
+    
     with open("users.json", "r") as f:
         users = json.load(f)
 
