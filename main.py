@@ -23,7 +23,7 @@ TIMEOUT = 60
 
 chrome_options = Options()
 chrome_options.add_argument('--log-level=3')
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 # chrome_options.add_argument("--profile-directory=.\data\Default")
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
@@ -166,42 +166,41 @@ async def schedule(ctx):
     try:
         message = await client.wait_for("message", check=check, timeout=30)
         captcha_text = message.content
-
     except TimeoutError:    
         await ctx.send("Request timed out") 
         return
         
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtCaptcha")))
-        captcha_field = driver.find_element_by_id("ContentPlaceHolder1_txtCaptcha")
-        captcha_field.send_keys(captcha_text)
+    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtCaptcha")))
+    captcha_field = driver.find_element_by_id("ContentPlaceHolder1_txtCaptcha")
+    captcha_field.send_keys(captcha_text)
 
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_btnLogin")))
-        login = driver.find_element_by_id("ContentPlaceHolder1_btnLogin")
-        login.click()
+    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_btnLogin")))
+    login = driver.find_element_by_id("ContentPlaceHolder1_btnLogin")
+    login.click()
 
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")))
-        schedule = driver.find_element_by_id("ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")
-        schedule.click()
+    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")))
+    schedule = driver.find_element_by_id("ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")
+    schedule.click()
 
-        rows = driver.find_elements_by_xpath("//tbody/tr")
-        for row in rows:
-            segments = row.find_elements_by_xpath(".//td")
-            if len(segments) != 0:
-                link = f"[{segments[-6].text}][{segments[-5].text}][{segments[-4].text}] Link: {get_link(segments[-3].text)}\n"
-                links.append(link)
+    rows = driver.find_elements_by_xpath("//tbody/tr")
+    for row in rows:
+        segments = row.find_elements_by_xpath(".//td")
+        if len(segments) != 0:
+            link = f"[{segments[-6].text}][{segments[-5].text}][{segments[-4].text}] Link: {get_link(segments[-3].text)}\n"
+            links.append(link)
 
-        message = ""
-        for link in links:
-            message += link
-        time.sleep(1)
-    
-        print(message)
+    message = ""
+    for link in links:
+        message += link
+    time.sleep(1)
 
-        if message == "":
-            await ctx.send(f"No schedule found for user {ctx.author.name}")
-            return
+    print(message)
 
-        await ctx.send(message)
+    if message == "":
+        await ctx.send(f"No schedule found for user {ctx.author.name}")
+        return
+
+    await ctx.send(message)
 
 
 
