@@ -170,6 +170,7 @@ async def schedule(ctx):
         captcha_text = message.content
     except TimeoutError:    
         await ctx.send("Request timed out") 
+        driver.quit()
         return
         
     WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtCaptcha")))
@@ -190,6 +191,8 @@ async def schedule(ctx):
         if len(segments) != 0:
             link = f"[{segments[-6].text}][{segments[-5].text}][{segments[-4].text}] Link: {get_link(segments[-3].text)}\n"
             links.append(link)
+    
+    driver.quit()
 
     message = ""
     for link in links:
@@ -203,6 +206,8 @@ async def schedule(ctx):
         return
 
     await ctx.send(message)
+
+
 
 
 
