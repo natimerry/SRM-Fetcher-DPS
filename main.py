@@ -23,7 +23,7 @@ TIMEOUT = 60
 
 chrome_options = Options()
 chrome_options.add_argument('--log-level=3')
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 # chrome_options.add_argument("--profile-directory=.\data\Default")
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
@@ -195,6 +195,8 @@ async def schedule(ctx):
             message += link
         time.sleep(1)
     
+        print(message)
+
         if message == "":
             await ctx.send(f"No schedule found for user {ctx.author.name}")
             return
