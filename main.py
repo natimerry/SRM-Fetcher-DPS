@@ -17,6 +17,7 @@ from discord.ext import commands, tasks
 from discord.utils import get
 import json
 import requests
+import keep_alive
 
 DELAY = 5
 TIMEOUT = 60
@@ -204,4 +205,5 @@ async def schedule(ctx):
 
 
 
-client.run("ODQwNTQ1MjY1ODg2NjkxMzMw.YJZwxw.OdIeTWco4zMW1Tqs1rlADwljYFE")
+keep_alive.keep_alive()
+client.run(os.environ["TOKEN"])
