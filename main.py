@@ -162,10 +162,11 @@ async def schedule(ctx):
     await ctx.send("Type out the following captcha: ", file=discord.File("./captcha.jpg"))
     os.remove("./captcha.jpg")
 
-    def check(message):
-        return ctx.author.id == message.author.id
 
     try:
+        def check(message):
+            return ctx.author.id == message.author.id
+            
         message = await client.wait_for("message", check=check, timeout=30)
         captcha_text = message.content
     except TimeoutError:    
