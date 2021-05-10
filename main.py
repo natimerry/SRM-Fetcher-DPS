@@ -198,6 +198,7 @@ async def schedule(ctx):
     message = ""
     for link in links:
         message += link
+        message += "\n---------------------------------------------------------------------------------------------\n"
     time.sleep(1)
 
     print(message)
