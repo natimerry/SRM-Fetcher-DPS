@@ -182,6 +182,13 @@ async def schedule(ctx):
     login = driver.find_element_by_id("ContentPlaceHolder1_btnLogin")
     login.click()
 
+    try:
+        wrong_captcha = driver.find_element_by_id("ContentPlaceHolder1_lblerr")
+    except:
+        await ctx.send("Invalid Captcha!")
+        driver.quit()
+        return
+
     WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")))
     schedule = driver.find_element_by_id("ContentPlaceHolder1_ContentPlaceHolder2_btnschedule")
     schedule.click()
