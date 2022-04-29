@@ -5,3 +5,8 @@ If you are unfortunate enough to study in dps and need something that can scrap 
 Join the [Discord Server](https://discord.gg/uBGJg4ptjB) to use the bot or create your own instance.  
 ## Important
 All of this written by [Atendimento2005](https://github.com/Atendimento2005). I am merely publishing this as open source code.
+
+## Contact
+**Discords**:-
+fanatic freedom#9243 - ME
+Aten2005#0858 - Aten
