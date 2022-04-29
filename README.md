@@ -1,5 +1,5 @@
 # SRM-Fetcher-DPS
-If you are unfortunate enough to study in dps and need something that can scrap the SRM site for schedules you will like this Discord bot. 
+If you are unfortunate enough to study in dps and need something that can scrap the SRM site for schedules and save you 2 minutes of your precious time you will might want to try out this bot. 
 
 ## Discord Server
 Join the [Discord Server](https://discord.gg/uBGJg4ptjB) to use the bot or create your own instance.  
