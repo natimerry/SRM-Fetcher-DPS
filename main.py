@@ -216,9 +216,5 @@ async def schedule(ctx):
 
     await ctx.send(message)
 
-
-
-
-
 keep_alive.keep_alive()
 client.run(os.environ["TOKEN"])
