@@ -10,7 +10,6 @@ pyocr = "^0.8"
 discord = "^1.0.1"
 pytesseract = "^0.3.7"
 selenium = "^3.141.0"
-flask = "^1.1.2"
 
 [tool.poetry.dev-dependencies]
 

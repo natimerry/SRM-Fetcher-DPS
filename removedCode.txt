@@ -1,0 +1,154 @@
+# @client.command()
+# async def notice(ctx):
+
+#     driver = webdriver.Chrome("./dependencies/chromedriver", options= chrome_options)
+    
+#     try:
+
+#         with open("users.json", "r") as f:
+#             users = json.load(f)
+
+#         if str(ctx.author.id) in users:
+#             USER_ID = users[str(ctx.author.id)]["ID"]
+#             USER_PASS = users[str(ctx.author.id)]["PASS"]
+
+#             if USER_ID[0] == "<" and USER_ID[-1] == ">":
+#                 print(f"{ctx.author.name} did the funni")
+#                 await ctx.send("Try registering again but this time do not include <>. If you face any more difficulties feel free to contact Aten2005#5597")
+#                 return
+
+#             if USER_PASS[0] == "<" and USER_PASS[-1] == ">":
+#                 print(f"{ctx.author.name} did the funni")
+#                 await ctx.send("Try registering again but this time do not include <>. If you face any more difficulties feel free to contact Aten2005#5597")
+#                 return
+            
+#         else:
+#             await ctx.send(f"No profile found for user {ctx.author.name}. Try using .register")
+#             print(f"{ctx.author.name} did not register and tried to use .schedule")
+#             return
+
+#         links = []
+
+#         driver.get("http://dpskolkata.net/")
+
+#         tries = 0
+
+#         logged_in = False
+#         while not logged_in and tries <= 10:
+#             try:
+
+#                 wrong_captcha = driver.find_element_by_id("ContentPlaceHolder1_lblerr")
+                
+#                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtusername")))
+#                 username = driver.find_element_by_id("ContentPlaceHolder1_txtusername")
+#                 username.send_keys(Keys.CONTROL + "A", Keys.BACKSPACE)
+#                 username.send_keys(USER_ID)
+
+#                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtpwd")))
+#                 password = driver.find_element_by_id("ContentPlaceHolder1_txtpwd")
+#                 password.send_keys(Keys.CONTROL + "A", Keys.BACKSPACE)
+#                 password.send_keys(USER_PASS)
+
+
+#                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_imgCaptcha")))
+#                 captcha = driver.find_element_by_id("ContentPlaceHolder1_imgCaptcha")
+#                 src = captcha.get_attribute("src")        
+
+#                 img_captcha_base64 = driver.execute_async_script("""
+#                 var ele = arguments[0], callback = arguments[1];
+#                 ele.addEventListener('load', function fn(){
+#                 ele.removeEventListener('load', fn, false);
+#                 var cnv = document.createElement('canvas');
+#                 cnv.width = this.width; cnv.height = this.height;
+#                 cnv.getContext('2d').drawImage(this, 0, 0);
+#                 callback(cnv.toDataURL('image/jpeg').substring(22));
+#                 }, false);
+#                 ele.dispatchEvent(new Event('load'));
+#                 """, captcha)
+
+#                 with open(r"captcha.jpg", 'wb') as f:
+#                     f.write(base64.b64decode(img_captcha_base64))
+
+#                 img = Image.open("./captcha.jpg")
+#                 captcha_text = tess.image_to_string(img).strip()
+
+
+#                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_txtCaptcha")))
+#                 captcha_field = driver.find_element_by_id("ContentPlaceHolder1_txtCaptcha")
+#                 captcha_field.send_keys(captcha_text)
+
+#                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_btnLogin")))
+#                 login = driver.find_element_by_id("ContentPlaceHolder1_btnLogin")
+#                 login.click()
+
+#                 tries += 1
+                
+#                 print(tries)
+            
+#             except:
+#                 logged_in = True
+            
+
+#         #login code
+        
+#         #Send captcha to user to solve
+#             # await ctx.send("Type out the following captcha: ", file=discord.File("./captcha.jpg"))
+#             # os.remove("./captcha.jpg")
+
+#             # def check(message):
+#             #     return ctx.author.id == message.author.id
+
+#             # try:
+#             #     message = await client.wait_for("message", check=check, timeout=30)
+#             #     captcha_text = message.content
+#             # except TimeoutError:    
+#             #     await ctx.send("Request timed out") 
+#             #     return
+                
+#         #Autosolve captcha with pytess
+#         try:
+#             wrong_captcha = driver.find_element_by_id("ContentPlaceHolder1_lblerr")
+#             await ctx.send("You have most probably registered with an invalid id and password. Try changing your credentials by using .unregister and then registering again!")
+#             print(f"{ctx.author.name} has mp registered with an invalid id or password")
+#             driver.quit()
+#             return
+#         except:
+#             print("Successfully logged in!")
+#             print(f"{ctx.author.name} logged in!")
+#             pass 
+
+
+
+#         WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "ContentPlaceHolder1_ContentPlaceHolder2_btnnotice")))
+#         notice = driver.find_element_by_id("ContentPlaceHolder1_ContentPlaceHolder2_btnnotice")
+#         notice.click()
+
+#         rows = driver.find_elements_by_xpath("//tbody/tr")
+
+#         if len(rows) == 0:
+#             await ctx.send(f"No schedule found for user {ctx.author.name}")
+#             print(f"No schedule found for user {ctx.author.name}")
+#             driver.quit()
+#             return
+
+#         embed=discord.Embed(title=f"Class links for {ctx.author.name}", color=0xff0000)
+
+#         for row in rows:
+#             segments = row.find_elements_by_xpath(".//td")
+#             if len(segments) != 0:
+#                 embed.add_field(name = f"[{segments[-6].text}][{segments[-5].text}][{segments[-4].text}] ", value = f"Link: {get_link(segments[-3].text)}\n{getMeetingID(segments[-3].text)}\n{getPasscode(segments[-3].text)}\n\n", inline=False)
+
+#         # message = ""
+#         # for link in links:
+#         #     message += link
+#         #     message += "\n-------------------------------------------------------------------------------\n\n"
+#         # time.sleep(1)
+
+#         embed.set_footer(text="amogus sus")
+#         await ctx.send(embed=embed)
+#         print(f"{ctx.author.name} successfully recieved schedule!")
+#         driver.quit()
+#     except:
+#         driver.quit()
+#         await ctx.send("Something went wrong. Please contact Aten2005#5597")
+#         print(f"Something went wrong while trying to send schedule to {ctx.author.name}")
